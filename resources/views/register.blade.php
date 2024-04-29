@@ -1,3 +1,10 @@
+
+
+<style>
+    .conteiner {
+        padding-top: 80px;
+    }
+</style>
 @extends('layout')
 @section('title', 'Registration')
 @section('content')
@@ -26,18 +33,18 @@
         <form action="{{route('register_post')}}" method="POST" class="ms-auto me-auto mt-auto" style="width: 500px">
             @csrf
             <div class="mb-3">
-                <label class="form-label">Fullname</label>
+                <label class="form-label">@lang('auth.full_name')</label>
                 <input type="text" class="form-control" name="name">
             </div>
             <div class="mb-3">
-                <label class="form-label">Email address</label>
+                <label class="form-label">@lang('auth.email')</label>
                 <input type="email" class="form-control" name="email">
             </div>
             <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <label for="exampleInputPassword1" class="form-label">@lang('auth.password')</label>
                 <input type="password" class="form-control" name="password">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary">@lang('auth.register')</button>
         </form>
     </div>
 @endsection

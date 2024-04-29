@@ -2,6 +2,7 @@
 @section('title', 'PizzaRoot | Pizzas')
 
 @section('content')
+
     @foreach($objects as $object)
     <div style="margin-top: 50px">
         <div class="row g-0 bg-body-secondary position-relative">
@@ -9,8 +10,14 @@
                 <img src="{{asset("storage/".$object->image)}}" class="w-100" alt="...">
             </div>
             <div class="col-md-6 p-4 ps-md-0">
-                <h5 class="mt-0">{{$object->name}}</h5>
-                <p>{{$object->description}}</p>
+                @if(\Illuminate\Support\Facades\Session::get('locale')=='ru')
+                    <h5 class="mt-0">{{$object->name_ru}}</h5>
+                    <p>{{$object->description_ru}}</p>
+                @else
+                    <h5 class="mt-0">{{$object->name}}</h5>
+                    <p>{{$object->description}}</p>
+
+                @endif
                 <p class="fs-2" id="total{{$loop->iteration}}">{{ $object->price }} AMD</p>
 
 
@@ -46,5 +53,6 @@
                 totalElement.textContent = total + " AMD"; // Обновляем текст элемента с общей стоимостью
             }
         }
+
     </script>
 
