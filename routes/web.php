@@ -54,6 +54,7 @@ Route::group(['prefix'=>'/cart', 'middleware'=>'cart'], function (){
 
 });
 
+Route::get('verify/{token}', [AuthController::class, 'verify']);
 
 
 

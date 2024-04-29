@@ -6,9 +6,12 @@ use http\Client\Curl\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Token;
 use function Laravel\Prompts\error;
 use function PHPUnit\Framework\once;
-
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistrationMail;
 class AuthController extends Controller
 {
     public function login_view(){
@@ -46,8 +49,11 @@ class AuthController extends Controller
         $user = \App\Models\User::create([
             'name' => $request['name'],
             'email' => $request['email'],
-            'password' => Hash::make($request['password'])
+            'password' => Hash::make($request['password']),
+            'remember_token' => Str::random(40),
         ]);
+
+        Mail::to($user->email)->send(new RegistrationMail($user));
 
         if(!$user){
             return redirect(route('register_view'))->with("error", "Error Register");
@@ -62,6 +68,18 @@ class AuthController extends Controller
         Session::flush();
         Auth::logout();
         return redirect(route('login_view'));
+    }
+
+    public function verify($token){
+        $user = \App\Models\User::where('remember_token', '=', $token)->first();
+        if (!empty($user)){
+            $user->email_verified_at = date('Y-m-d H:i:s');
+            $user->save();
+            $user->remember_token = Str::random(40);
+            return redirect(route('login_view'))->with('success', 'Your account has been verified');
+        }else{
+            abort(404);
+        }
     }
 
 
