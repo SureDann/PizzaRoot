@@ -49,7 +49,7 @@ Route::prefix('/food')->group(function (){
 
 Route::group(['prefix'=>'/cart', 'middleware'=>'cart'], function (){
     Route::get('/user_cart', [CartController::class, 'cart_view'])->name('cart_view');
-    Route::post('/add_cart', [CartController::class, 'add_cart'])->name('add_cart');
+    Route::post('/add_cart',[CartController::class, 'add_cart'])->name('add_cart')->middleware('verify');
 
 
 });

@@ -1,6 +1,7 @@
 @extends('layout')
 @section('title', 'PizzaRoot')
 @section('content')
+
     <div style="margin-left: 40px; font-size: 30pt; padding-top: 70px">
         <p class="fw-bold">PizzaRoot.</p><p class="fw-medium">@lang('welcome.pizza_text1')</p>
         <p class="fw-medium">@lang('welcome.pizza_text2')</p>

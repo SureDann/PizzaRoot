@@ -40,7 +40,9 @@
             </div>
         @endforeach
         <div>
-            <p id="totalPrice">@lang('cart.total_price'): AMD {{$totalPrice}}</p>
+            @if(!empty($product))
+                <p id="totalPrice">@lang('cart.total_price'): AMD {{$totalPrice}}</p>
+            @endif
         </div>
     </div>
     <script>
