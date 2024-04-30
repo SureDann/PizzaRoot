@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\AuthRequest;
+use App\Http\Requests\LoginRequest;
 use Illuminate\Support\Facades\Session;
 use http\Client\Curl\User;
 use Illuminate\Http\Request;
@@ -21,15 +23,11 @@ class AuthController extends Controller
         return view('register');
     }
 
-    public function loginPost(Request $request){
-        $request->validate([
-            'email' => 'required|',
-            'password' => 'required|',
-
-        ]);
+    public function loginPost(LoginRequest $request){
+        $data = $request->validated();
 
 
-        $credentials = $request->only('email', 'password');
+        $credentials = $data->only('email', 'password');
         if(Auth::attempt($credentials)){
             return redirect()->intended(route('home'))->with('success', "You are logined!");
         }
@@ -38,18 +36,14 @@ class AuthController extends Controller
 
     }
 
-    public function registerPost(Request $request){
+    public function registerPost(AuthRequest $request){
 
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|',
-        ]);
+        $data = $request->validated();
 
         $user = \App\Models\User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => Hash::make($request['password']),
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
             'remember_token' => Str::random(40),
         ]);
 
